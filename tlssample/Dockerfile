@@ -1,6 +1,14 @@
-FROM centos/python-38-centos7
-ADD . /code
-WORKDIR /code
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+FROM centos:latest
 
+# workfile set
+COPY . /code/
+WORKDIR /code
+
+# first setup
+RUN echo "alias ll='ls -la'" >> ~/.bashrc
+RUN yum -y install python39
+RUN python3 -m venv venv
+
+# application execute
+RUN chmod 777 app.sh
+CMD ["./app.sh"]

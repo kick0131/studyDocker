@@ -1,7 +1,7 @@
 ## for WSL(Ubuntu)
-デフォルトのエディタをnanoから変更
+デフォルトのエディタを変更(default:nano)
 ```
-update-alternatives --config editor
+sudo update-alternatives --config editor
 ```
 
 コミットログをvimに変更
@@ -21,7 +21,11 @@ docker-compose up
 docker-compose down
 ```
 
-## docker-compose書式
+## docker-compose
+```
+```
+
+### 書式
 コンテナを起動したままにする
 ```
 tty : true
