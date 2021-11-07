@@ -10,15 +10,9 @@ ENV LANG="ja_JP UTF-8" \
     LC_ALL="ja_JP.UTF-8" \
     TZ="Asia/Tokyo"
 
-# workfile set
-COPY . /code/
-WORKDIR /code
-
 # first setup
 RUN echo "alias ll='ls -la'" >> ~/.bashrc
-RUN yum -y install python39
-RUN python3 -m venv venv
+RUN yum -y install openssh-clients
 
-# application execute
-RUN chmod 777 app.sh
-CMD ["./app.sh"]
+CMD ["/bin/bash"]
+

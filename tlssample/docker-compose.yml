@@ -8,8 +8,12 @@ services:
     volumes:
      - .:/code
     tty: true
+    command: /bin/bash
   client:
-    image: centos:latest
+    # image: centos:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_client
     container_name: tlsclient
     tty: true
 

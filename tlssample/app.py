@@ -9,4 +9,15 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+
+    ENABLE_SSH = True
+
+    if ENABLE_SSH:
+        import ssl
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        ssl_context.load_cert_chain(
+            'cert/hoge.cert', 'cert/hoge_key.pem'
+        )
+        app.run(host="0.0.0.0", debug=True, ssl_context=ssl_context)
+    else:
+        app.run(host="0.0.0.0", debug=True)
