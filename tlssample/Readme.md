@@ -16,28 +16,34 @@ flaskアプリをHTTPS通信させる為にオレオレ証明書を適用する
   | client    |                    | server       |
   |           | curl               |              |
   |           | https://localhost  |              |
-  | ?          + -----------------> +             |
-  |           |                    | hoge.crt     |
+  |           + -----------------> +              |
+  |           |         hoge.cert  |              |
+  | velify    + <----------------- |              |
+  |           | TLS connection     |              |
+  |           + -----------------> +              |
+  |           |                    | hoge.cert    |
   |           |                    | hoge_key.pem |
   +-----------+                    +--------------+
 
 ```
 
-### OSS(client)
+## Client
+### OSS
 
 | oss | description |
 | --- | --- |
 | openssh-clients | sshクライアント |
 
 
-### OSS(server)
+## Server
+### OSS
 
 | oss | description |
 | --- | --- |
 | python39 | python |
 
 
-## directory
+### directory
 
 | file | description |
 | --- | --- |
@@ -50,6 +56,24 @@ flaskアプリをHTTPS通信させる為にオレオレ証明書を適用する
 | cert/hoge_key.pem | 秘密鍵 |
 
 
+### certfile
+秘密鍵作成
+```
+openssl genrsa -aes256 -out hoge_key.pem 2048
+```
+
+CSRファイル作成
+```
+openssl req -new -key hoge_key.pem -out hoge.csr
+```
+
+証明書作成
+```
+openssl x509 -req -days 3650 -in hoge.csr -signkey hoge_key.pem -out hoge.cert
+```
+
+
+
 ### Notice
 Dockerfileとdocker-compose.yml両方でコンテナ内にファイル配置を行っているが、  
 docker-composeのvolume動作は行っていない為、  
@@ -58,7 +82,7 @@ Dockerfile内でファイルを使用する為にはCOPYが必要
 docker-composeでvolume割り当てを行っている
 
 
-## usage openssl enable
+## Usage
 
 起動中のコンテナにアタッチ
 ```
