@@ -1,3 +1,5 @@
 **.png
 **/venv
 **/venv/**
+
+tlssample/rootca/*

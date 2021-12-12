@@ -124,6 +124,36 @@ openssl x509 -req -days 3650 -extfile san.txt -in hoge.csr -signkey hoge_key.pem
 openssl x509 -in hoge.cert -text -noout
 ```
 
+# root CA certificate
+## prepaire
+予め用意したroot-ca.confファイルを使用する  
+生成コマンドはrootcaディレクトリ上でコマンド実行する事
+```bash
+mkdir rootca
+cd rootca
+mkdir certs db private
+chmod 700 private
+touch db/index
+openssl rand -hex 16 > db/serial
+echo 1001 > db/crlnumber
+```
+## usage
+パスフレーズは"**pass**"
+
+```bash
+# 秘密鍵とCSRの作成
+openssl req -new -config root-ca.conf -out root-ca.csr -keyout private/root-ca.key
+
+# 自己署名証明書の作成
+openssl ca -selfsign -config root-ca.conf -in root-ca.csr -out r
+oot-ca.cert -extensions ca_ext
+
+## 署名するかを尋ねられる
+Sign the certificate? [y/n]:y
+## DBに登録するかを尋ねられる
+1 out of 1 certificate requests certified, commit? [y/n]y
+
+```
 
 # Trouble shooting
 ### Dockerfileとdocker-compose.yml両方でコンテナ内にファイル配置を行っている理由
@@ -156,3 +186,4 @@ SAN(Subject Alias Name)に変更された為。
 1. SANを設定する
 
 ### docker logsが表示されない
+*★要調査*
