@@ -155,6 +155,20 @@ Sign the certificate? [y/n]:y
 
 ```
 
+## 証明書生成後の状態
+./rootca/db/indexに出力される(root-ca.confで定義)
+```
+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
+V	311210095921Z		A805225E53BB774F51FD1A8B2682FE83	unknown	/C=GB/O=Example/CN=Root CA
+
+```
+1. ステータスフラグ(Vは有効、Rは失効)
+1. 有効期限
+1. 失効日付
+1. シリアル番号(db/serialと一致)
+1. ファイルの場所またはunknown
+1. 識別名
+
 # Trouble shooting
 ### Dockerfileとdocker-compose.yml両方でコンテナ内にファイル配置を行っている理由
 1. Dockerイメージの作成
