@@ -14,5 +14,5 @@ ENV LANG="ja_JP UTF-8" \
 RUN echo "alias ll='ls -la'" >> ~/.bashrc
 RUN yum -y install openssh-clients
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
 

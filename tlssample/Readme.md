@@ -92,7 +92,9 @@ openssl s_client -connect localhost:5000 -showcerts
 | cert/hoge_key.pem | 秘密鍵 |
 
 
-### certfile
+# Server certificate
+シンプルなサーバ証明書発行手順
+
 秘密鍵作成
 ```bash
 # pass あり
@@ -125,6 +127,10 @@ openssl x509 -in hoge.cert -text -noout
 ```
 
 # root CA certificate
+ルートCA証明書発行手順。  
+ブラウザにインストールを行う事で、サーバアクセス時、「信頼された証明機関から発行されていない」エラーを回避できる。
+※サーバに設定したサーバ証明書を信頼する
+
 ## prepaire
 予め用意したroot-ca.confファイルを使用する  
 生成コマンドはrootcaディレクトリ上でコマンド実行する事
@@ -169,15 +175,16 @@ V	311210095921Z		A805225E53BB774F51FD1A8B2682FE83	unknown	/C=GB/O=Example/CN=Roo
 1. ファイルの場所またはunknown
 1. 識別名
 
+
 # Trouble shooting
-### Dockerfileとdocker-compose.yml両方でコンテナ内にファイル配置を行っている理由
+## Dockerfileとdocker-compose.yml両方でコンテナ内にファイル配置を行っている理由
 1. Dockerイメージの作成
 1. docker-composeのvolume動作
 
 の順番で動作する為、コンテナ起動時に動作させたい内容はDockerイメージ作成のタイミングで行う必要がある  
 docker-composeのvolume割り当てはホスト側とファイルの同期を目的としたもの
 
-### app.pyのサーバ証明書適用有無の関係
+## app.pyのサーバ証明書適用有無の関係
 
 | client | server | result |
 | -- | -- | -- |
@@ -186,18 +193,19 @@ docker-composeのvolume割り当てはホスト側とファイルの同期を目
 | http  | ssl適用有り | NG |
 | https | ssl適用有り | OK |
 
-### サーバ証明書のパスワード
+## サーバ証明書のパスワード
 サーバ証明書にパスワードをつけるとアプリからの起動時にコンソールから入力を求められるので可用性が非常に低くなる  
 Dockerイメージに埋め込んでいる時点でセキュアな環境である為、  
 サーバ証明書にパスワードを入れる必然性は低い。  
 なので、サーバ証明書は基本パスワード無しとしている。
 
-### curlからのhttpsはOKなのにブラウザからはNG
+## curlからのhttpsはOKなのにブラウザからはNG
 Chromeのドメイン名チェックがCN(Common Name)ではなく、  
 SAN(Subject Alias Name)に変更された為。  
 以下のどちらかで対応する
 1. シークレットモードからアクセス可能
 1. SANを設定する
 
-### docker logsが表示されない
-*★要調査*
+## docker logsが表示されない
+docker-compose立ち上げ時のプロセスのみログ監視対象になる為
+https://zenn.dev/hohner/articles/ec94623f8fa5b1

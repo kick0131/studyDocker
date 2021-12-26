@@ -15,5 +15,5 @@ services:
       context: .
       dockerfile: Dockerfile_client
     container_name: tlsclient
-    tty: true
-
+    # tty: true
+    command: bash
