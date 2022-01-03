@@ -1,7 +1,15 @@
-# gitlabコンテナ
+# install
 コンテナ起動からWebアクセス可能迄若干時間がかかる。  
 その間502を応答するので気長に待つ。
 
+## preparation
+HOMEディレクトリの定義は最低限必要  
+.bash_profile
+```
+export GITLAB_HOME=/srv/gitlab
+```
+
+## command
 ```
 # 起動
 docker-compose up -d
