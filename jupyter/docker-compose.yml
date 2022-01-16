@@ -6,7 +6,12 @@ services:
     ports:
      - "10000:8888"
     volumes:
-     - .:/home/jovyan/work
+     - ./work:/home/jovyan/work
+     # if use own config, set enable.
+     - ./config:/home/jovyan/.jupyter
     environment:
       - JUPYTER_ENABLE_LAB=yes
+      - NB_USER=root
+      - GRANT_SUDO=yes
     #command: jupyter/scipy-notebook
+    command: start.sh jupyter lab --allow-root --NotebookApp.password='sha1:06002ec134a9:265e5793335b8cc2ca84bdc2fc8611e9f43d7f54'
